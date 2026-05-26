@@ -5,7 +5,7 @@ async function login(){
     const pass = document.getElementById("password").value;
 
     const response = await fetch(
-        "http://localhost:5000/admin/login",
+        "http://restaurant-backend.onrender.com/admin/login",
         {
             method: "POST",
 
