@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Authentication</title>
+
+<link rel="stylesheet" href="./css/style.css">
+
+<style>
+
+body{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+background:linear-gradient(to right,#ff9966,#ff5e62);
+}
+
+.auth-box{
+
+background:white;
+
+padding:40px;
+
+border-radius:15px;
+
+width:350px;
+
+text-align:center;
+
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.auth-box input{
+
+width:100%;
+
+padding:10px;
+
+margin:10px 0;
+
+border:1px solid #ccc;
+
+border-radius:5px;
+}
+
+.auth-box button{
+
+padding:10px 20px;
+
+border:none;
+
+background:#e23744;
+
+color:white;
+
+border-radius:5px;
+
+cursor:pointer;
+}
+
+.toggle-link{
+
+margin-top:15px;
+
+color:blue;
+
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="auth-box">
+
+<h2 id="title">
+
+Login
+
+</h2>
+
+<input 
+type="text"
+id="name"
+placeholder="Enter Name"
+style="display:none;">
+
+<input 
+type="email"
+id="email"
+placeholder="Enter Email">
+
+<input 
+type="password"
+id="password"
+placeholder="Enter Password">
+
+<button id="submitBtn">
+
+Login
+
+</button>
+
+<p 
+class="toggle-link"
+onclick="toggleForm()">
+
+New User? Register Here
+
+</p>
+
+</div>
+
+<script>
+
+let isLogin = true;
+
+document
+.getElementById("submitBtn")
+.addEventListener("click",submitForm);
+
+function toggleForm(){
+
+isLogin = !isLogin;
+
+if(isLogin){
+
+document.getElementById("title")
+.innerText = "Login";
+
+document.getElementById("submitBtn")
+.innerText = "Login";
+
+document.getElementById("name")
+.style.display = "none";
+
+document.querySelector(".toggle-link")
+.innerText =
+"New User? Register Here";
+}
+else{
+
+document.getElementById("title")
+.innerText = "Register";
+
+document.getElementById("submitBtn")
+.innerText = "Register";
+
+document.getElementById("name")
+.style.display = "block";
+
+document.querySelector(".toggle-link")
+.innerText =
+"Already Have Account? Login";
+}
+}
+
+async function submitForm(){
+
+const name =
+document.getElementById("name").value;
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+if(isLogin){
+
+try{
+
+const response =
+await fetch(
+"http://localhost:5000/users/login",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+email,
+password
+})
+});
+
+const data =
+await response.json();
+
+if(data.success){
+
+localStorage.setItem(
+"isLoggedIn",
+true
+);
+
+window.location.href =
+"index.html";
+}
+else{
+
+alert(data.message);
+}
+
+}
+catch(error){
+
+console.log(error);
+
+alert("Server Error");
+}
+
+}
+else{
+
+try{
+
+const response =
+await fetch(
+"http://localhost:5000/users/register",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name,
+email,
+password
+})
+});
+
+const data =
+await response.json();
+
+alert(data.message);
+
+toggleForm();
+
+}
+catch(error){
+
+console.log(error);
+
+alert("Server Error");
+}
+}
+}
+
+</script>
+
+</body>
+</html>

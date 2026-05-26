@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Foodie Restaurant</title>
+
+<link rel="stylesheet" href="./css/style.css">
+
+</head>
+
+<body>
+
+<script>
+
+if(!localStorage.getItem("isLoggedIn")){
+
+window.location.href = "auth.html";
+}
+
+</script>
+
+<header class="navbar">
+
+<h1 class="logo">
+Foodie
+</h1>
+
+<nav>
+
+<a href="./cart.html">
+
+Cart (<span id="cart-count">0</span>)
+
+</a>
+
+<button onclick="toggleDarkMode()">
+
+Dark Mode
+
+</button>
+
+<button onclick="logout()">
+
+Logout
+
+</button>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<video autoplay muted loop class="hero-video">
+
+<source
+src="./videos/854345-hd_1280_720_30fps.mp4"
+type="video/mp4">
+
+</video>
+
+<div class="overlay">
+
+<h2>
+Discover the Best Food
+</h2>
+
+<p>
+Order your favorite meals online
+</p>
+
+<button onclick="scrollToMenu()">
+
+Explore Menu
+
+</button>
+
+</div>
+
+</section>
+
+<section id="menu" class="menu">
+
+<h2>
+Our Menu
+</h2>
+
+<div class="menu-controls">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search food...">
+
+<select id="sortPrice">
+
+<option value="">
+Sort By Price
+</option>
+
+<option value="low">
+Low to High
+</option>
+
+<option value="high">
+High to Low
+</option>
+
+</select>
+
+</div>
+
+<div class="category-nav">
+
+<button onclick="filterCategory('all')">
+All
+</button>
+
+<button onclick="filterCategory('starters')">
+Starters
+</button>
+
+<button onclick="filterCategory('biryanis')">
+Biryanis
+</button>
+
+<button onclick="filterCategory('cooldrinks')">
+Cool Drinks
+</button>
+
+<button onclick="filterCategory('desserts')">
+Desserts
+</button>
+
+</div>
+
+<div class="food-grid" id="foodContainer">
+
+<!-- STARTERS -->
+
+<div class="food-card" data-category="starters" data-price="180">
+
+<span class="veg">VEG</span>
+
+<img src="./images/Restaurant-Style-Recipe-Paneer-Tikka.jpg">
+
+<h4>Paneer Tikka</h4>
+
+<div class="rating">⭐⭐⭐⭐☆</div>
+
+<p>₹180</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Paneer Tikka',180)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="starters" data-price="220">
+
+<span class="nonveg">NON-VEG</span>
+
+<img src="./images/chicken65.jpg">
+
+<h4>Chicken 65</h4>
+
+<div class="rating">⭐⭐⭐⭐⭐</div>
+
+<p>₹220</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Chicken 65',220)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="starters" data-price="160">
+
+<span class="veg">VEG</span>
+
+<img src="./images/gobi-manchurian.jpg">
+
+<h4>Gobi Manchurian</h4>
+
+<div class="rating">⭐⭐⭐⭐☆</div>
+
+<p>₹160</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Gobi Manchurian',160)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="starters" data-price="210">
+
+<span class="nonveg">NON-VEG</span>
+
+<img src="./images/chicken lollipop.jpg">
+
+<h4>Chicken Lollipop</h4>
+
+<div class="rating">⭐⭐⭐⭐☆</div>
+
+<p>₹210</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Chicken Lollipop',210)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<!-- BIRYANIS -->
+
+<div class="food-card" data-category="biryanis" data-price="249">
+
+<span class="nonveg">NON-VEG</span>
+
+<img src="./images/chickenbiryani.jpg">
+
+<h4>Chicken Biryani</h4>
+
+<div class="rating">⭐⭐⭐⭐☆</div>
+
+<p>₹249</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Chicken Biryani',249)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="biryanis" data-price="349">
+
+<span class="nonveg">NON-VEG</span>
+
+<img src="./images/mutton biryani.jpg">
+
+<h4>Mutton Biryani</h4>
+
+<div class="rating">⭐⭐⭐⭐⭐</div>
+
+<p>₹349</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Mutton Biryani',349)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="biryanis" data-price="199">
+
+<span class="veg">VEG</span>
+
+<img src="./images/veg biryani.jpg">
+
+<h4>Veg Biryani</h4>
+
+<div class="rating">⭐⭐⭐⭐☆</div>
+
+<p>₹199</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Veg Biryani',199)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="biryanis" data-price="289">
+
+<span class="nonveg">NON-VEG</span>
+
+<img src="./images/prawn biryani.jpg">
+
+<h4>Prawn Biryani</h4>
+
+<div class="rating">⭐⭐⭐⭐☆</div>
+
+<p>₹289</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Prawn Biryani',289)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<!-- COOL DRINKS -->
+
+<div class="food-card" data-category="cooldrinks" data-price="40">
+
+<span class="veg">VEG</span>
+
+<img src="./images/cocacola.jpg">
+
+<h4>Coca Cola</h4>
+
+<div class="rating">⭐⭐⭐☆☆</div>
+
+<p>₹40</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Coca Cola',40)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="cooldrinks" data-price="40">
+
+<span class="veg">VEG</span>
+
+<img src="./images/sprite.webp">
+
+<h4>Sprite</h4>
+
+<div class="rating">⭐⭐⭐☆☆</div>
+
+<p>₹40</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Sprite',40)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="cooldrinks" data-price="60">
+
+<span class="veg">VEG</span>
+
+<img src="./images/fanta.webp">
+
+<h4>Fanta</h4>
+
+<div class="rating">⭐⭐⭐⭐☆</div>
+
+<p>₹60</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Fanta',60)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<div class="food-card" data-category="cooldrinks" data-price="120">
+
+<span class="veg">VEG</span>
+
+<img src="./images/chocolate milkshake.jpg">
+
+<h4>Chocolate Milkshake</h4>
+
+<div class="rating">⭐⭐⭐⭐⭐</div>
+
+<p>₹120</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Chocolate Milkshake',120)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+<!-- DESSERTS -->
+
+<div class="food-card" data-category="desserts" data-price="99">
+
+<span class="veg">VEG</span>
+
+<img src="./images/icecream.jpg">
+
+<h4>Ice Cream</h4>
+
+<div class="rating">⭐⭐⭐⭐⭐</div>
+
+<p>₹99</p>
+
+<div class="quantity-section">
+
+<button onclick="decreaseQuantity(this)">-</button>
+
+<span class="qty">1</span>
+
+<button onclick="increaseQuantity(this)">+</button>
+
+<button onclick="addToCartQty(this,'Ice Cream',99)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script src="./js/cart.js"></script>
+
+<script src="./js/menu.js"></script>
+
+<script>
+
+function logout(){
+
+localStorage.removeItem("isLoggedIn");
+
+window.location.href = "auth.html";
+}
+
+function toggleDarkMode(){
+
+document.body.classList.toggle("dark-mode");
+}
+   
+</script>
+
+</body>
+</html>

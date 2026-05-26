@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Your Cart</title>
+
+<link rel="stylesheet" href="./css/style.css">
+
+</head>
+
+<body>
+
+<div class="menu">
+
+<h2>Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<h3>Total: ₹<span id="totalPrice">0</span></h3>
+
+<button onclick="placeOrder()">
+Place Order
+</button>
+
+</div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let total = 0;
+
+const container = document.getElementById("cartItems");
+
+function displayCart(){
+
+container.innerHTML = "";
+
+total = 0;
+
+cart.forEach((item,index)=>{
+
+let div = document.createElement("div");
+
+div.innerHTML = `
+
+<h3>${item.name}</h3>
+
+<p>₹${item.price}</p>
+
+<button onclick="removeItem(${index})">
+Remove
+</button>
+
+<hr>
+`;
+
+container.appendChild(div);
+
+total += item.price;
+});
+
+document.getElementById("totalPrice")
+.innerText = total;
+}
+
+displayCart();
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+displayCart();
+}
+
+async function placeOrder(){
+
+await fetch("http://localhost:5000/orders",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+items:cart,
+
+totalPrice:total
+})
+});
+
+alert("Order Placed Successfully");
+
+localStorage.removeItem("cart");
+
+location.reload();
+}
+
+</script>
+
+</body>
+</html>
